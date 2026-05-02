@@ -70,3 +70,33 @@ variable "catalogue_sg_name" {
 variable "catalogue_sg_description" {
   default = "Creating SG for catalogue"
 }
+variable "user_sg_name" {
+  default = "user"
+}
+variable "user_sg_description" {
+  default = "Creating SG for user"
+}
+variable "cart_sg_name" {
+  default = "cart"
+}
+variable "cart_sg_description" {
+  default = "Creating SG for cart"
+}
+variable "shipping_sg_name" {
+  default = "shipping"
+}
+variable "shipping_sg_description" {
+  default = "Creating SG for shipping"
+}
+variable "payment_sg_name" {
+  default = "payment"
+}
+variable "payment_sg_description" {
+  default = "Creating SG for payment"
+}
+variable "frontend_alb_sg_name" {
+  default = "frontend_alb"
+}
+variable "frontend_alb_sg_description" {
+  default = "Creating SG for frontend_alb"
+}

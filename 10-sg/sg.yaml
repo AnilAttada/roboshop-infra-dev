@@ -1,0 +1,148 @@
+- name: Roboshop SG and Rules
+  Security_groups:
+  - DB:
+    - MONGODB
+    - REDIS
+    - MYSQL
+    - RABBITMQ
+  - APP:
+    - CATALOGUE
+    - USER
+    - CART
+    - SHIPPING
+    - PAYMENT
+  - BACKEND_ALB:
+  - FRONTEND:
+  - FRONTEND_ALB:
+  - VPN:
+  - BASTION:
+#Every component has SG for eg:
+
+  Mongodb - It allows connections from catalogue and user and vpn.
+
+  mongodb:
+  - name: mongodb_vpn
+    purpose: mongodb should accept traffic on 22,27017 from vpn
+  - name: mongodb_catalogue
+    purpose: mongodb should accept traffic on 27017 from catalogue
+  - name: mongodb_user
+    purpose: mongodb should accept traffic on 27017 from user
+
+  Redis - It allows connections from user and cart and vpn.
+
+  redis:
+  - name: redis_vpn
+    purpose: redis should accept traffic on 22,5679 from vpn
+  - name: redis_user
+    purpose: redis should accept traffic on 5679 from user
+  - name: redis_cart
+    purpose: redis should accept traffic on 5679 from cart
+
+  Mysql - It allows connections from shipping and vpn.
+
+  mysql:
+  - name: mysql_vpn
+    purpose: mysql should accept traffic on 22,3306 from vpn
+  - name: mysql_shipping
+    purpose: redis should accept traffic on 3306 from shipping
+
+  Rabbitmq - It allows connections from payment and vpn.
+
+  rabbitmq:
+  - name: rabbitmq_vpn
+    purpose: rabbitmq should accept traffic on 22,5672 from vpn
+  - name: rabbitmq_payment
+    purpose: redis should accept traffic on 5672 from payment
+
+  Catalogue - It allows connections from backend_alb and vpn.
+
+  catalogue:
+  - name: catalogue_vpn
+    purpose: catalogue should accept traffic on 22,8080 from vpn
+  - name: catalogue_backend_alb
+    purpose: catalogue should accept traffic on 8080 from backend_alb
+  - name: catalogue_bastion
+    purpose: catalogue should accept traffic on 22 from bastion
+
+  User - It allows connections from backend_alb, bastion and vpn.
+
+  user:
+  - name: user_vpn
+    purpose: user should accept traffic on 22,8080 from vpn
+  - name: user_bastion
+    purpose: user should accept traffic on 22 from bastion
+  - name: user_backend_alb
+    purpose: user should accept traffic on 8080 from backend_alb
+
+  Cart - It allows connections from backend_alb, bastion and vpn.
+
+  cart:
+  - name: cart_vpn
+    purpose: cart should accept traffic on 22,8080 from vpn
+  - name: cart_bastion
+    purpose: cart should accept traffic on 22 from bastion
+  - name: cart_backend_alb
+    purpose: cart should accept traffic on 8080 from backend_alb
+
+  Shipping - It allows connections from backend_alb, bastion and vpn.
+
+  shipping:
+  - name: shipping_vpn
+    purpose: shipping should accept traffic on 22,8080 from vpn
+  - name: shipping_bastion
+    purpose: shipping should accept traffic on 22 from bastion
+  - name: shipping_backend_alb
+    purpose: shipping should accept traffic on 8080 from backend_alb
+
+  Payment - It allows connections from backend_alb, bastion and vpn.
+
+  payment:
+  - name: payment_vpn
+    purpose: payment should accept traffic on 22,8080 from vpn
+  - name: payment_bastion
+    purpose: payment should accept traffic on 22 from bastion
+  - name: payment_backend_alb
+    purpose: payment should accept traffic on 8080 from backend_alb 
+
+  Backend_alb - It allows connections from bastion, frontend, cart, shipping, payment and vpn.
+
+  backend_alb:
+  - name: backend_alb_vpn
+    purpose: backend_alb should accept traffic on 80 from vpn
+  - name: backend_alb_bastion
+    purpose: backend_alb should accept traffic on 80 from bastion
+  - name: backend_alb_frontend
+    purpose: backend_alb should accept traffic on 80 from frontend
+  - name: backend_alb_shipping
+    purpose: backend_alb should accept traffic on 80 from shipping
+  - name: backend_alb_payment
+    purpose: backend_alb should accept traffic on 80 from payment
+  - name: backend_alb_cart
+    purpose: backend_alb should accept traffic on 80 from cart
+
+  Frontend - It allows connections from bastion, frontend_alb and vpn.
+
+  frontend:
+  - name: frontend_vpn
+    purpose: frontend should allow traffic on 22 from vpn
+  - name: frontend_bastion
+    purpose: frontend should allow traffic on 22 from bastion
+  - name: frontend_frontend_alb
+    purpose: frontend should allow traffic on 80 from frontend_alb
+
+  Fronted_alb - It allows connections from http and https
+
+  frontend_alb:
+  - name: frontend_alb_http
+    purpose: frontend alb should allow traffic on 80 from http
+  - name: frontend_alb_https
+    purpose: frontend alb should allow traffic on 443 from https
+  
+  Bastion - bastion allows connections from laptop.
+
+  bastion:
+  - name: bastion_laptop
+  purpose: bastion should allow traffic on 22 from laptop
+
+  VPN PORTS ARE 22, 443, 1194, 943.
+  

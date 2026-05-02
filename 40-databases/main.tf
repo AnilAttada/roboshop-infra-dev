@@ -32,7 +32,7 @@ resource "terraform_data" "mongodb" { #null resource just follow terraform lifec
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/bootstrap.sh",
-      "sudo sh /tmp/bootstrap.sh mongodb" #passing the component here
+      "sudo sh /tmp/bootstrap.sh mongodb ${var.environment}" #passing the component here
     ]
   }
 }
@@ -71,7 +71,7 @@ resource "terraform_data" "redis" { #null resource just follow terraform lifecyc
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/bootstrap.sh",
-      "sudo sh /tmp/bootstrap.sh redis" #passing the component here
+      "sudo sh /tmp/bootstrap.sh redis ${var.environment}" #passing the component here
     ]
   }
 }
@@ -111,7 +111,7 @@ resource "terraform_data" "mysql" { #null resource just follow terraform lifecyc
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/bootstrap.sh",
-      "sudo sh /tmp/bootstrap.sh mysql" #passing the component here
+      "sudo sh /tmp/bootstrap.sh mysql ${var.environment}" #passing the component here
     ]
   }
 }
@@ -150,14 +150,14 @@ resource "terraform_data" "rabbitmq" { #null resource just follow terraform life
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/bootstrap.sh",
-      "sudo sh /tmp/bootstrap.sh rabbitmq" #passing the component here
+      "sudo sh /tmp/bootstrap.sh rabbitmq ${var.environment}" #passing the component here
     ]
   }
 }
 
 resource "aws_route53_record" "mongodb" {
   zone_id = var.zone_id
-  name    = "mongodb.${var.zone_name}"
+  name    = "mongodb-${var.environment}.${var.zone_name}"
   type    = "A"
   ttl     = 1
   records = [aws_instance.mongodb.private_ip]
@@ -166,7 +166,7 @@ resource "aws_route53_record" "mongodb" {
 
 resource "aws_route53_record" "redis" {
   zone_id = var.zone_id
-  name    = "redis.${var.zone_name}"
+  name    = "redis-${var.environment}.${var.zone_name}"
   type    = "A"
   ttl     = 1
   records = [aws_instance.redis.private_ip]
@@ -175,7 +175,7 @@ resource "aws_route53_record" "redis" {
 
 resource "aws_route53_record" "mysql" {
   zone_id = var.zone_id
-  name    = "mysql.${var.zone_name}"
+  name    = "mysql-${var.environment}.${var.zone_name}"
   type    = "A"
   ttl     = 1
   records = [aws_instance.mysql.private_ip]
@@ -184,7 +184,7 @@ resource "aws_route53_record" "mysql" {
 
 resource "aws_route53_record" "rabbitmq" {
   zone_id = var.zone_id
-  name    = "rabbitmq.${var.zone_name}"
+  name    = "rabbitmq-${var.environment}.${var.zone_name}"
   type    = "A"
   ttl     = 1
   records = [aws_instance.rabbitmq.private_ip]
