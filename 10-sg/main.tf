@@ -156,6 +156,15 @@ resource "aws_security_group_rule" "backend_alb_vpn" {
   security_group_id = module.backend_alb.sg_id
 }
 
+resource "aws_security_group_rule" "backend_alb_bastion" {
+  type = "ingress"
+  from_port = 80
+  to_port = 80
+  protocol = "tcp"
+  source_security_group_id = module.backend.sg_id
+  security_group_id = module.backend_alb.sg_id
+}
+
 resource "aws_security_group_rule" "backend_alb_frontend" {
   type = "ingress"
   from_port = 80
@@ -233,12 +242,22 @@ resource "aws_security_group_rule" "vpn_943" {
 #MONGODB
 #Mongodb allowing connections from VPN on ports: 22,27017
 resource "aws_security_group_rule" "mongobd_vpn" {
-  count = length(var.mongodb_vpn_ports)
+  count = length(var.mongodb_ports)
   type = "ingress"
-  from_port = var.mongodb_vpn_ports[count.index]
-  to_port = var.mongodb_vpn_ports[count.index]
+  from_port = var.mongodb_ports[count.index]
+  to_port = var.mongodb_ports[count.index]
   protocol = "tcp"
   source_security_group_id = module.vpn.sg_id
+  security_group_id = module.mongodb.sg_id
+}
+
+resource "aws_security_group_rule" "mongobd_bastion" {
+  count = length(var.mongodb_ports)
+  type = "ingress"
+  from_port = var.mongodb_ports[count.index]
+  to_port = var.mongodb_ports[count.index]
+  protocol = "tcp"
+  source_security_group_id = module.bastion.sg_id
   security_group_id = module.mongodb.sg_id
 }
 
@@ -264,12 +283,22 @@ resource "aws_security_group_rule" "mongodb_user" {
 #REDIS
 #REDIS allowing connections from VPN on ports: 22,6379
 resource "aws_security_group_rule" "redis_vpn" {
-  count = length(var.redis_vpn_ports)
+  count = length(var.redis_ports)
   type = "ingress"
-  from_port = var.redis_vpn_ports[count.index]
-  to_port = var.redis_vpn_ports[count.index]
+  from_port = var.redis_ports[count.index]
+  to_port = var.redis_ports[count.index]
   protocol = "tcp"
   source_security_group_id = module.vpn.sg_id
+  security_group_id = module.redis.sg_id
+}
+
+resource "aws_security_group_rule" "redis_bastion" {
+  count = length(var.redis_ports)
+  type = "ingress"
+  from_port = var.redis_ports[count.index]
+  to_port = var.redis_ports[count.index]
+  protocol = "tcp"
+  source_security_group_id = module.bastion.sg_id
   security_group_id = module.redis.sg_id
 }
 
@@ -294,12 +323,22 @@ resource "aws_security_group_rule" "redis_cart" {
 #MYSQL
 #mysql allowing connections from VPN on ports: 22,3306
 resource "aws_security_group_rule" "mysql_vpn" {
-  count = length(var.mysql_vpn_ports)
+  count = length(var.mysql_ports)
   type = "ingress"
-  from_port = var.mysql_vpn_ports[count.index]
-  to_port = var.mysql_vpn_ports[count.index]
+  from_port = var.mysql_ports[count.index]
+  to_port = var.mysql_ports[count.index]
   protocol = "tcp"
   source_security_group_id = module.vpn.sg_id
+  security_group_id = module.mysql.sg_id
+}
+
+resource "aws_security_group_rule" "mysql_bastion" {
+  count = length(var.mysql_ports)
+  type = "ingress"
+  from_port = var.mysql_ports[count.index]
+  to_port = var.mysql_ports[count.index]
+  protocol = "tcp"
+  source_security_group_id = module.bastion.sg_id
   security_group_id = module.mysql.sg_id
 }
 
@@ -315,12 +354,22 @@ resource "aws_security_group_rule" "mysql_shipping" {
 #RABBITMQ
 #rabbitmq allowing connections from VPN on ports: 22,5672
 resource "aws_security_group_rule" "rabbitmq_vpn" {
-  count = length(var.rabbitmq_vpn_ports)
+  count = length(var.rabbitmq_ports)
   type = "ingress"
-  from_port = var.rabbitmq_vpn_ports[count.index]
-  to_port = var.rabbitmq_vpn_ports[count.index]
+  from_port = var.rabbitmq_ports[count.index]
+  to_port = var.rabbitmq_ports[count.index]
   protocol = "tcp"
   source_security_group_id = module.vpn.sg_id
+  security_group_id = module.rabbitmq.sg_id
+}
+
+resource "aws_security_group_rule" "rabbitmq_bastion" {
+  count = length(var.rabbitmq_ports)
+  type = "ingress"
+  from_port = var.rabbitmq_ports[count.index]
+  to_port = var.rabbitmq_ports[count.index]
+  protocol = "tcp"
+  source_security_group_id = module.bastion.sg_id
   security_group_id = module.rabbitmq.sg_id
 }
 

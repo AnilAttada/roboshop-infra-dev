@@ -34,7 +34,7 @@ variable "mongodb_sg_name" {
 variable "mongodb_sg_description" {
   default = "Creating SG for Mongodb"
 }
-variable "mongodb_vpn_ports" {
+variable "mongodb_ports" {
   default = [22 , 27017]
 }
 variable "redis_sg_name" {
@@ -43,7 +43,7 @@ variable "redis_sg_name" {
 variable "redis_sg_description" {
   default = "Creating SG for redis"
 }
-variable "redis_vpn_ports" {
+variable "redis_ports" {
   default = [22 , 6379]
 }
 variable "mysql_sg_name" {
@@ -52,7 +52,7 @@ variable "mysql_sg_name" {
 variable "mysql_sg_description" {
   default = "Creating SG for mysql"
 }
-variable "mysql_vpn_ports" {
+variable "mysql_ports" {
   default = [22 , 3306]
 }
 variable "rabbitmq_sg_name" {
@@ -61,7 +61,7 @@ variable "rabbitmq_sg_name" {
 variable "rabbitmq_sg_description" {
   default = "Creating SG for rabbitmq"
 }
-variable "rabbitmq_vpn_ports" {
+variable "rabbitmq_ports" {
   default = [22 , 5672]
 }
 variable "catalogue_sg_name" {
