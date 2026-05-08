@@ -7,7 +7,7 @@ resource "aws_instance" "bastion" {
 
   root_block_device {
     volume_size = 50
-    volume_type = gp3
+    volume_type = "gp3"
   }
 
   tags = merge(
